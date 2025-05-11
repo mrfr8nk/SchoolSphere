@@ -5,39 +5,39 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Teacher Dashboard - Attendance, Grades, Updates & Student Management</title>
+    <title>Teacher Admin Portal - School Management System</title>
     <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/yFJryv1y/mrfrankofc.jpg" />
     <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/yFJryv1y/mrfrankofc.jpg" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/yFJryv1y/mrfrankofc.jpg" />
     <style>
-      /* Root Variables & Themes */
+      /* Enhanced Root Variables & Themes */
       :root {
-        --primary: #003366;
-        --secondary: #ffd700;
-        --glass: rgba(255, 255, 255, 0.08);
-        --bg-gradient: linear-gradient(45deg, #003d4d, #005f73);
+        --primary: #1a365d;
+        --secondary: #d69e2e;
+        --accent: #9f7aea;
+        --glass: rgba(26, 54, 93, 0.15);
+        --bg-gradient: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
         --text-color: #ffffff;
-        --overlay: rgba(0, 0, 0, 0.4);
+        --overlay: rgba(0, 0, 0, 0.5);
+        --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        --header-height: 80px;
       }
+      
       [data-theme="light"] {
-        --primary: #00b4db;
-        --secondary: #0083b0;
-        --glass: rgba(255, 255, 255, 0.9);
-        --bg-gradient: linear-gradient(45deg, #e0f7fa, #b2ebf2);
-        --text-color: #1c1917;
+        --primary: #3182ce;
+        --secondary: #dd6b20;
+        --accent: #805ad5;
+        --glass: rgba(237, 242, 247, 0.9);
+        --bg-gradient: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+        --text-color: #2d3748;
         --overlay: rgba(255, 255, 255, 0.4);
       }
+      
       /* Global Styles */
       * {
         margin: 0;
@@ -45,17 +45,21 @@
         box-sizing: border-box;
         font-family: "Poppins", sans-serif;
       }
+      
       body {
         background: var(--bg-gradient);
         color: var(--text-color);
         min-height: 100vh;
-        transition: background 0.6s ease, color 0.6s ease;
+        transition: all 0.6s ease;
+        line-height: 1.6;
       }
-      /* Header & Side Menu (Teacher Dashboard) */
+      
+      /* Enhanced Header */
       header {
-        background: var(--glass);
+        background: rgba(26, 54, 93, 0.9);
         backdrop-filter: blur(12px);
-        padding: 1.2rem 5%;
+        padding: 0 5%;
+        height: var(--header-height);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -63,340 +67,738 @@
         width: 100%;
         top: 0;
         z-index: 1000;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: var(--card-shadow);
+        border-bottom: 2px solid var(--secondary);
       }
+      
       .logo {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 700;
-        background: linear-gradient(to right, var(--primary), var(--secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         display: flex;
         align-items: center;
+        color: white;
       }
+      
+      .logo span {
+        color: var(--secondary);
+      }
+      
       .header-logo {
-        height: 40px;
-        margin-right: 10px;
+        height: 50px;
+        margin-right: 15px;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
       }
+      
       .menu-btn {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         cursor: pointer;
         background: transparent;
         border: none;
-        color: var(--text-color);
+        color: white;
+        transition: transform 0.3s ease;
       }
+      
+      .menu-btn:hover {
+        transform: scale(1.1);
+        color: var(--secondary);
+      }
+      
+      /* Enhanced Side Menu */
       .side-menu {
         position: fixed;
         top: 0;
-        right: -300px;
-        width: 300px;
+        right: -350px;
+        width: 350px;
         height: 100%;
-        background: var(--glass);
+        background: rgba(26, 54, 93, 0.95);
         backdrop-filter: blur(20px);
         padding: 2rem;
-        transition: right 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 2000;
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        border-left: 1px solid rgba(214, 158, 46, 0.3);
       }
+      
       .side-menu.active {
         right: 0;
       }
+      
       .menu-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
       }
+      
+      .menu-header h3 {
+        font-size: 1.5rem;
+        color: var(--secondary);
+      }
+      
       .close-btn {
         font-size: 1.8rem;
         cursor: pointer;
         background: transparent;
         border: none;
-        color: var(--text-color);
+        color: white;
+        transition: transform 0.3s ease;
       }
+      
+      .close-btn:hover {
+        transform: rotate(90deg);
+        color: var(--secondary);
+      }
+      
       .menu-links {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 1rem;
       }
+      
       .menu-links a {
-        color: var(--text-color);
+        color: white;
         text-decoration: none;
         font-size: 1.1rem;
-        padding: 10px;
+        padding: 12px 15px;
         border-radius: 8px;
-        transition: background 0.3s ease;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
       }
-      .menu-links a:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
-      /* Container & Sections */
-      .container {
-        padding: 180px 5% 100px;
-        max-width: 1200px;
-        margin: auto;
-      }
-      section {
-        margin-bottom: 40px;
-      }
-      /* Dashboard Section */
-      #dashboard {
+      
+      .menu-links a i {
+        width: 25px;
         text-align: center;
       }
+      
+      .menu-links a:hover {
+        background: rgba(214, 158, 46, 0.2);
+        transform: translateX(5px);
+      }
+      
+      .menu-links a.active {
+        background: var(--secondary);
+        color: #1a365d;
+        font-weight: 600;
+      }
+      
+      /* Enhanced Container & Sections */
+      .container {
+        padding: calc(var(--header-height) + 40px) 5% 120px;
+        max-width: 1400px;
+        margin: auto;
+      }
+      
+      section {
+        margin-bottom: 50px;
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+      
+      section h2 {
+        color: var(--secondary);
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+      
+      section h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--secondary);
+      }
+      
+      /* Enhanced Dashboard Section */
+      #dashboard {
+        text-align: center;
+        background: rgba(26, 54, 93, 0.7);
+      }
+      
       #welcomeMessage {
-        font-size: 3rem;
+        font-size: 2.5rem;
         margin-bottom: 1.5rem;
         animation: fadeIn 1s ease-in-out;
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
       }
+      
       #teacherStats {
         margin-bottom: 2rem;
       }
-      /* Form Elements */
-      .form-group {
-        margin-bottom: 1rem;
+      
+      /* Enhanced Stats Cards */
+      .stat-card {
+        background: rgba(255,255,255,0.1);
+        padding: 25px;
+        border-radius: 10px;
+        flex: 1;
+        min-width: 200px;
+        transition: transform 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.1);
       }
+      
+      .stat-card:hover {
+        transform: translateY(-5px);
+        background: rgba(214, 158, 46, 0.1);
+      }
+      
+      .stat-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        color: var(--secondary);
+      }
+      
+      .stat-card p {
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+      }
+      
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+      }
+      
+      /* Enhanced Form Elements */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+      
       .form-group label {
         display: block;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
         font-weight: 500;
-        color: var(--primary);
+        color: var(--secondary);
       }
+      
       .form-group input,
       .form-group select,
       .form-group textarea {
         width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background: var(--glass);
+        padding: 0.9rem;
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 8px;
+        background: rgba(255,255,255,0.1);
         color: var(--text-color);
+        font-size: 1rem;
+        transition: all 0.3s ease;
       }
+      
       .form-group input:focus,
       .form-group select:focus,
       .form-group textarea:focus {
-        border-color: var(--primary);
+        border-color: var(--secondary);
         outline: none;
+        box-shadow: 0 0 0 3px rgba(214, 158, 46, 0.3);
+        background: rgba(255,255,255,0.15);
       }
+      
+      .form-group textarea {
+        min-height: 150px;
+        resize: vertical;
+      }
+      
       .form-group button {
-        padding: 0.75rem 1.5rem;
-        background: var(--primary);
-        color: white;
+        padding: 0.9rem 1.8rem;
+        background: var(--secondary);
+        color: #1a365d;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
         font-size: 1rem;
-        transition: background 0.3s ease;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
       }
+      
       .form-group button:hover {
-        background: #002244;
+        background: #e69c2a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       }
-      /* Table, Notifications & Modal (Student Management) */
-      .total-count {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
+      
+      .form-group button i {
+        font-size: 1.1rem;
       }
-      .notification {
-        padding: 10px;
-        margin-bottom: 15px;
-        border-radius: 4px;
-        text-align: center;
-        display: none;
-      }
-      .notification.success {
-        background-color: #dff0d8;
-        color: #3c763d;
-      }
-      .notification.error {
-        background-color: #f2dede;
-        color: #a94442;
-      }
-      .notification.notice {
-        background-color: #d9edf7;
-        color: #31708f;
-      }
+      
+      /* Enhanced Tables */
       .table-responsive {
         width: 100%;
         overflow-x: auto;
+        margin-bottom: 30px;
+        border-radius: 8px;
+        box-shadow: var(--card-shadow);
       }
+      
       table {
         width: 100%;
         border-collapse: collapse;
-        margin-bottom: 20px;
         min-width: 900px;
+        background: rgba(255,255,255,0.05);
       }
+      
       table th,
       table td {
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 8px;
+        padding: 12px 15px;
         text-align: left;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        border: 1px solid rgba(255,255,255,0.1);
       }
+      
       table th {
         background: var(--primary);
-        color: #fff;
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
       }
+      
+      table tr:nth-child(even) {
+        background: rgba(255,255,255,0.03);
+      }
+      
+      table tr:hover {
+        background: rgba(214, 158, 46, 0.1);
+      }
+      
+      /* Enhanced Action Buttons */
+      .action-buttons {
+        display: flex;
+        gap: 8px;
+      }
+      
       .action-buttons button {
-        margin-right: 5px;
-        padding: 5px 10px;
+        padding: 6px 12px;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
       }
+      
+      .action-buttons button i {
+        font-size: 0.9rem;
+      }
+      
       .edit-btn {
-        background: #4caf50;
-        color: #fff;
+        background: #38a169;
+        color: white;
       }
+      
+      .edit-btn:hover {
+        background: #2f855a;
+        transform: translateY(-2px);
+      }
+      
       .delete-btn {
-        background: #f44336;
-        color: #fff;
+        background: #e53e3e;
+        color: white;
       }
-      /* Modal Styles */
+      
+      .delete-btn:hover {
+        background: #c53030;
+        transform: translateY(-2px);
+      }
+      
+      /* Enhanced Attendance Table */
+      .attendance-table {
+        width: 100%;
+        margin: 20px 0;
+        background: rgba(255,255,255,0.05);
+      }
+      
+      .attendance-table th {
+        background: var(--primary);
+        color: white;
+        text-align: center;
+        padding: 10px;
+      }
+      
+      .attendance-table td {
+        text-align: center;
+        padding: 10px;
+      }
+      
+      .attendance-table input[type="checkbox"] {
+        transform: scale(1.5);
+        cursor: pointer;
+      }
+      
+      /* Enhanced Notices Section */
+      .notice-card {
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 4px solid var(--secondary);
+        transition: transform 0.3s ease;
+      }
+      
+      .notice-card:hover {
+        transform: translateX(5px);
+        background: rgba(255,255,255,0.15);
+      }
+      
+      .notice-card h3 {
+        color: var(--secondary);
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+      }
+      
+      .notice-card p {
+        margin-bottom: 15px;
+        line-height: 1.7;
+      }
+      
+      .notice-card small {
+        color: rgba(255,255,255,0.7);
+        font-size: 0.85rem;
+        display: block;
+        margin-top: 10px;
+      }
+      
+      .notice-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+      
+      .notice-actions button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .notice-actions .edit-notice {
+        background: #4299e1;
+        color: white;
+      }
+      
+      .notice-actions .edit-notice:hover {
+        background: #3182ce;
+      }
+      
+      .notice-actions .delete-notice {
+        background: #e53e3e;
+        color: white;
+      }
+      
+      .notice-actions .delete-notice:hover {
+        background: #c53030;
+      }
+      
+      /* Enhanced Modal Styles */
       .modal {
         display: none;
         position: fixed;
-        z-index: 2000;
+        z-index: 3000;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: var(--overlay);
+        backdrop-filter: blur(5px);
       }
+      
       .modal-content {
-        background-color: #fefefe;
-        margin: 10% auto;
-        padding: 20px;
-        border: 1px solid #888;
+        background-color: var(--glass);
+        margin: 8% auto;
+        padding: 30px;
+        border-radius: 12px;
         width: 90%;
-        max-width: 500px;
-        border-radius: 10px;
+        max-width: 600px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.1);
+        animation: modalFadeIn 0.4s ease-out;
       }
-      .modal-content h2 {
-        margin-top: 0;
+      
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
       }
+      
+      .modal-header h2 {
+        color: var(--secondary);
+        margin: 0;
+      }
+      
       .close {
         color: #aaa;
-        float: right;
         font-size: 28px;
         font-weight: bold;
         cursor: pointer;
+        transition: color 0.3s ease;
       }
+      
       .close:hover,
       .close:focus {
-        color: black;
+        color: var(--secondary);
         text-decoration: none;
       }
-      .modal form div {
-        margin-bottom: 10px;
+      
+      .modal-body {
+        margin-bottom: 25px;
       }
-      .modal form label {
-        display: block;
-        margin-bottom: 5px;
+      
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
       }
-      .modal form input,
-      .modal form select {
-        width: 100%;
-        padding: 8px;
-        box-sizing: border-box;
+      
+      /* Enhanced Settings Section */
+      .profile-picture-container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
       }
-      /* Settings Section - Profile & Personal Info Update */
-      #settings form {
-        max-width: 600px;
-        margin: auto;
+      
+      .profile-picture {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--secondary);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       }
-      #settings .form-group img {
-        display: block;
-        margin-bottom: 10px;
+      
+      .profile-upload {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
-      /* Footer */
+      
+      /* Enhanced Footer */
       footer {
-        background: var(--glass);
-        backdrop-filter: blur(12px);
+        background: rgba(26, 54, 93, 0.9);
         color: white;
-        padding: 2rem 5%;
+        padding: 1.5rem 5%;
         text-align: center;
         position: fixed;
         width: 100%;
         bottom: 0;
+        z-index: 100;
+        border-top: 1px solid rgba(214, 158, 46, 0.3);
       }
+      
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 15px;
+      }
+      
       .social-icons a {
         color: white;
-        font-size: 1.5rem;
-        margin: 0 0.5rem;
-        transition: color 0.3s ease;
+        font-size: 1.3rem;
+        transition: all 0.3s ease;
       }
+      
       .social-icons a:hover {
         color: var(--secondary);
+        transform: translateY(-3px);
       }
-      /* Theme Toggle */
+      
+      footer p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+      
+      footer a {
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      
+      footer a:hover {
+        text-decoration: underline;
+      }
+      
+      /* Enhanced Theme Toggle */
       .theme-toggle {
         position: fixed;
         bottom: 30px;
         right: 30px;
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        background: var(--glass);
+        background: var(--primary);
         backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 2px solid var(--secondary);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
         z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       }
+      
       .theme-toggle:hover {
-        transform: scale(1.1) rotate(180deg);
+        transform: scale(1.1) rotate(15deg);
+        box-shadow: 0 6px 8px rgba(0,0,0,0.15);
       }
+      
       .theme-toggle i {
-        font-size: 1.4rem;
-        background: linear-gradient(45deg, var(--primary), var(--secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-size: 1.6rem;
+        color: var(--secondary);
       }
+      
       /* Animation Keyframes */
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-20px); }
         to { opacity: 1; transform: translateY(0); }
       }
+      
+      @keyframes modalFadeIn {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+      
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .container {
+          padding: calc(var(--header-height) + 20px) 3% 120px;
+        }
+        
+        section {
+          padding: 20px;
+        }
+        
+        #welcomeMessage {
+          font-size: 2rem;
+        }
+        
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .side-menu {
+          width: 280px;
+        }
+      }
+      
+      /* Utility Classes */
+      .text-center {
+        text-align: center;
+      }
+      
+      .mt-3 {
+        margin-top: 1rem;
+      }
+      
+      .mb-3 {
+        margin-bottom: 1rem;
+      }
+      
+      .flex {
+        display: flex;
+      }
+      
+      .justify-between {
+        justify-content: space-between;
+      }
+      
+      .items-center {
+        align-items: center;
+      }
     </style>
   </head>
   <body>
-    <!-- Header -->
+    <!-- Enhanced Header -->
     <header>
       <div class="logo">
         <img src="https://i.postimg.cc/mZ81jqGW/In-Shot-20250227-051117557.jpg" alt="Logo" class="header-logo" />
-        St. Mary's High - Teacher Dashboard
+        <span>Teacher</span> Admin Portal
       </div>
       <button class="menu-btn" id="menuBtn">
-        <i class="fas fa-bars"></i>
+        <i class="fas fa-user-cog"></i>
       </button>
     </header>
 
-    <!-- Side Menu -->
+    <!-- Enhanced Side Menu -->
     <div class="side-menu" id="sideMenu">
       <div class="menu-header">
-        <h3>Menu</h3>
+        <h3>Admin Controls</h3>
         <button class="close-btn" id="closeBtn">
           <i class="fas fa-times"></i>
         </button>
       </div>
       <div class="menu-links">
-        <a href="#dashboard">Dashboard</a>
-        <a href="/setreportcard">Set Student Report Card</a>
-        <a href="/adminapplication">View Applications</a>
-        <a href="/viewreports">View Reports</a>
-        <a href="#addUpdate">Add Notice</a>
-        <a href="#updates">View/Delete Notices</a>
-        <!--<a href="#studentManagement">Student Management</a>-->
-        <a href="/studentusers">Student Management</a>
-        <a href="/teacherusers">Teachers Management</a>
-        <a href="#settings">Settings</a>
-        <a href="/teacherslogin" id="logoutBtn"
-          ><i class="fas fa-sign-out-alt"></i> Logout</a
-        >
+        <a href="#dashboard" class="active">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="/setreportcard">
+          <i class="fas fa-file-alt"></i> Set Report Cards
+        </a>
+        <a href="/adminapplication">
+          <i class="fas fa-users"></i> View Applications
+        </a>
+        <a href="/viewreports">
+          <i class="fas fa-chart-bar"></i> View Reports
+        </a>
+        <a href="#addUpdate">
+          <i class="fas fa-bullhorn"></i> Add Notice
+        </a>
+        <a href="#updates">
+          <i class="fas fa-clipboard-list"></i> Manage Notices
+        </a>
+        <a href="/studentusers">
+          <i class="fas fa-user-graduate"></i> Student Management
+        </a>
+        <a href="/teacherusers">
+          <i class="fas fa-chalkboard-teacher"></i> Teacher Management
+        </a>
+        <a href="#settings">
+          <i class="fas fa-cog"></i> Settings
+        </a>
+        <a href="/teacherslogin" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
       </div>
     </div>
 
@@ -404,7 +806,7 @@
     <div class="container">
       <!-- Dashboard Section -->
       <section id="dashboard">
-        <h2 id="welcomeMessage">Welcome!</h2>
+        <h2 id="welcomeMessage">Welcome, Administrator!</h2>
         <div id="teacherStats">
           <!-- Dynamic teacher stats will load here -->
         </div>
@@ -412,255 +814,312 @@
 
       <!-- Attendance Section -->
       <section id="attendance" style="display: none;">
-        <h2>Attendance</h2>
+        <h2><i class="fas fa-calendar-check"></i> Attendance Management</h2>
         <form id="attendanceForm">
           <div class="form-group">
-            <label for="attendanceStudent">Student:</label>
+            <label for="attendanceStudent"><i class="fas fa-user-graduate"></i> Select Student:</label>
             <select id="attendanceStudent" required>
               <option value="">Select Student</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="attendanceYear">Year:</label>
-            <input type="text" id="attendanceYear" placeholder="e.g., 2025" required />
+          
+          <div class="flex justify-between items-center" style="gap: 20px;">
+            <div class="form-group" style="flex: 1;">
+              <label for="attendanceYear"><i class="fas fa-calendar"></i> Academic Year:</label>
+              <input type="text" id="attendanceYear" placeholder="e.g., 2025" required />
+            </div>
+            
+            <div class="form-group" style="flex: 1;">
+              <label for="attendanceTerm"><i class="fas fa-book"></i> Term:</label>
+              <select id="attendanceTerm" required>
+                <option value="">Select Term</option>
+                <option value="Term 1">Term 1</option>
+                <option value="Term 2">Term 2</option>
+                <option value="Term 3">Term 3</option>
+              </select>
+            </div>
+            
+            <div class="form-group" style="flex: 1;">
+              <label for="attendanceMonth"><i class="fas fa-calendar-alt"></i> Month:</label>
+              <select id="attendanceMonth" required>
+                <option value="">Select Month</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+              </select>
+            </div>
           </div>
+          
           <div class="form-group">
-            <label for="attendanceTerm">Term:</label>
-            <select id="attendanceTerm" required>
-              <option value="">Select Term</option>
-              <option value="Term 1">Term 1</option>
-              <option value="Term 2">Term 2</option>
-              <option value="Term 3">Term 3</option>
-            </select>
+            <p class="mb-3"><i class="fas fa-info-circle"></i> Mark attendance for 4 weeks (Mon - Fri):</p>
+            <div class="table-responsive">
+              <table class="attendance-table">
+                <thead>
+                  <tr>
+                    <th>Week</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                  </tr>
+                </thead>
+                <tbody id="attendanceTableBody">
+                  <!-- Dynamically generated attendance rows -->
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="attendanceMonth">Month:</label>
-            <select id="attendanceMonth" required>
-              <option value="">Select Month</option>
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
-            </select>
-          </div>
-          <p>Mark attendance for 4 weeks (Mon - Fri):</p>
-          <table class="attendance-table">
-            <thead>
-              <tr>
-                <th>Week</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-              </tr>
-            </thead>
-            <tbody id="attendanceTableBody">
-              <!-- Dynamically generated attendance rows -->
-            </tbody>
-          </table>
-          <div class="form-group">
-            <button type="submit">Save Attendance</button>
+          
+          <div class="form-group text-center">
+            <button type="submit">
+              <i class="fas fa-save"></i> Save Attendance
+            </button>
           </div>
         </form>
-        <div id="attendanceResult"></div>
+        <div id="attendanceResult" class="text-center"></div>
       </section>
 
-      <!-- Grades Section (if needed, not used on homepage) -->
+      <!-- Grades Section -->
       <section id="grades" style="display: none;">
-        <h2>Set Report Card</h2>
+        <h2><i class="fas fa-graduation-cap"></i> Set Report Card</h2>
         <form id="gradeForm">
           <div class="form-group">
-            <label for="gradeStudent">Student:</label>
+            <label for="gradeStudent"><i class="fas fa-user-graduate"></i> Select Student:</label>
             <select id="gradeStudent" required>
               <option value="">Select Student</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="studentClass">Class:</label>
-            <input type="text" id="studentClass" placeholder="Enter Class" required />
+          
+          <div class="flex justify-between items-center" style="gap: 20px;">
+            <div class="form-group" style="flex: 1;">
+              <label for="studentClass"><i class="fas fa-users-class"></i> Class:</label>
+              <input type="text" id="studentClass" placeholder="Enter Class" required />
+            </div>
+            
+            <div class="form-group" style="flex: 1;">
+              <label for="gradeYear"><i class="fas fa-calendar"></i> Year:</label>
+              <input type="text" id="gradeYear" placeholder="e.g., 2025" required />
+            </div>
+            
+            <div class="form-group" style="flex: 1;">
+              <label for="gradeTerm"><i class="fas fa-book"></i> Term:</label>
+              <select id="gradeTerm" required>
+                <option value="">Select Term</option>
+                <option value="Term 1">Term 1</option>
+                <option value="Term 2">Term 2</option>
+                <option value="Term 3">Term 3</option>
+              </select>
+            </div>
           </div>
+          
           <div class="form-group">
-            <label for="gradeYear">Year:</label>
-            <input type="text" id="gradeYear" placeholder="e.g., 2025" required />
-          </div>
-          <div class="form-group">
-            <label for="gradeTerm">Term:</label>
-            <select id="gradeTerm" required>
-              <option value="">Select Term</option>
-              <option value="Term 1">Term 1</option>
-              <option value="Term 2">Term 2</option>
-              <option value="Term 3">Term 3</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="finalGrade">Final Grade:</label>
+            <label for="finalGrade"><i class="fas fa-star"></i> Final Grade:</label>
             <select id="finalGrade" required>
               <option value="">Select Grade</option>
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option>
-              <option value="F">F</option>
+              <option value="A">A (Excellent)</option>
+              <option value="B">B (Good)</option>
+              <option value="C">C (Average)</option>
+              <option value="D">D (Below Average)</option>
+              <option value="F">F (Fail)</option>
             </select>
           </div>
-          <div class="form-group">
-            <button type="submit">Save Grade</button>
+          
+          <div class="form-group text-center">
+            <button type="submit">
+              <i class="fas fa-save"></i> Save Grade
+            </button>
           </div>
         </form>
-        <div id="gradeResult"></div>
+        <div id="gradeResult" class="text-center"></div>
       </section>
 
       <!-- Add Update / Notice Section -->
       <section id="addUpdate" style="display: none;">
-        <h2>Add Update/Notice</h2>
+        <h2><i class="fas fa-bullhorn"></i> Create New Notice</h2>
         <form id="updateForm">
           <div class="form-group">
-            <label for="teacherName">Teacher Name:</label>
+            <label for="teacherName"><i class="fas fa-user-tie"></i> Teacher Name:</label>
             <input type="text" id="teacherName" placeholder="Enter your name" required />
           </div>
+          
           <div class="form-group">
-            <label for="updateTitle">Title:</label>
-            <input type="text" id="updateTitle" placeholder="Enter update title" required />
+            <label for="updateTitle"><i class="fas fa-heading"></i> Notice Title:</label>
+            <input type="text" id="updateTitle" placeholder="Enter notice title" required />
           </div>
+          
           <div class="form-group">
-            <label for="updateContent">Content:</label>
-            <textarea id="updateContent" rows="4" placeholder="Enter update content" required></textarea>
+            <label for="updateContent"><i class="fas fa-align-left"></i> Notice Content:</label>
+            <textarea id="updateContent" rows="6" placeholder="Enter notice content..." required></textarea>
           </div>
-          <div class="form-group">
-            <label for="updateYear">Year:</label>
-            <input type="text" id="updateYear" placeholder="e.g., 2025" required />
+          
+          <div class="flex justify-between items-center" style="gap: 20px;">
+            <div class="form-group" style="flex: 1;">
+              <label for="updateYear"><i class="fas fa-calendar"></i> Year:</label>
+              <input type="text" id="updateYear" placeholder="e.g., 2025" required />
+            </div>
+            
+            <div class="form-group" style="flex: 1;">
+              <label for="updateTerm"><i class="fas fa-book"></i> Term:</label>
+              <select id="updateTerm" required>
+                <option value="">Select Term</option>
+                <option value="Term 1">Term 1</option>
+                <option value="Term 2">Term 2</option>
+                <option value="Term 3">Term 3</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="updateTerm">Term:</label>
-            <select id="updateTerm" required>
-              <option value="">Select Term</option>
-              <option value="Term 1">Term 1</option>
-              <option value="Term 2">Term 2</option>
-              <option value="Term 3">Term 3</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <button type="submit">Post Update</button>
+          
+          <div class="form-group text-center">
+            <button type="submit">
+              <i class="fas fa-paper-plane"></i> Publish Notice
+            </button>
           </div>
         </form>
-        <div id="updateResult"></div>
+        <div id="updateResult" class="text-center"></div>
       </section>
 
-      <!-- Student Management Section (Admin Code) -->
+      <!-- View/Manage Notices Section -->
+      <section id="updates" style="display: none;">
+        <h2><i class="fas fa-clipboard-list"></i> Manage Notices</h2>
+        <div id="updatesList">
+          <!-- Notices will be loaded here dynamically -->
+        </div>
+      </section>
+
+      <!-- Student Management Section -->
       <section id="studentManagement" style="display: none;">
-        <h1>Student Records</h1>
+        <h2><i class="fas fa-user-graduate"></i> Student Records</h2>
         <div id="notification" class="notification"></div>
         <div class="total-count" id="totalCount">Total Students: 0</div>
         <div id="studentsList">
           <!-- Grouped student tables will be appended here -->
         </div>
-        <!-- Edit Modal -->
+        
+        <!-- Edit Student Modal -->
         <div id="editModal" class="modal">
           <div class="modal-content">
-            <span class="close" id="editModalClose">&times;</span>
-            <h2>Edit Student</h2>
-            <form id="editForm">
-              <input type="hidden" id="editStudentId" />
-              <div>
-                <label for="editFirstName">First Name:</label>
-                <input type="text" id="editFirstName" required />
-              </div>
-              <div>
-                <label for="editSurname">Surname:</label>
-                <input type="text" id="editSurname" required />
-              </div>
-              <div>
-                <label for="editPhone">Phone:</label>
-                <input type="text" id="editPhone" required />
-              </div>
-              <div>
-                <label for="editEmail">Email:</label>
-                <input type="email" id="editEmail" required />
-              </div>
-              <div>
-                <label for="editParentName">Parent Name:</label>
-                <input type="text" id="editParentName" />
-              </div>
-              <div>
-                <label for="editParentPhone">Parent Phone:</label>
-                <input type="text" id="editParentPhone" />
-              </div>
-              <div>
-                <label for="editDob">DOB:</label>
-                <input type="date" id="editDob" />
-              </div>
-              <div>
-                <label for="editGender">Gender:</label>
-                <select id="editGender">
-                  <option value="">Select</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div>
-                <label for="editAddress">Address:</label>
-                <input type="text" id="editAddress" />
-              </div>
-              <div>
-                <label for="editUserPass">Password:</label>
-                <input type="password" id="editUserPass" />
-              </div>
-              <div style="margin-top: 15px;">
-                <button type="submit" style="padding: 5px 10px;">Save Changes</button>
-                <button type="button" id="cancelEdit" style="padding: 5px 10px;">Cancel</button>
-              </div>
-            </form>
+            <div class="modal-header">
+              <h2><i class="fas fa-user-edit"></i> Edit Student</h2>
+              <span class="close" id="editModalClose">&times;</span>
+            </div>
+            <div class="modal-body">
+              <form id="editForm">
+                <input type="hidden" id="editStudentId" />
+                <div class="form-group">
+                  <label for="editFirstName">First Name:</label>
+                  <input type="text" id="editFirstName" required />
+                </div>
+                <div class="form-group">
+                  <label for="editSurname">Surname:</label>
+                  <input type="text" id="editSurname" required />
+                </div>
+                <div class="form-group">
+                  <label for="editPhone">Phone:</label>
+                  <input type="text" id="editPhone" required />
+                </div>
+                <div class="form-group">
+                  <label for="editEmail">Email:</label>
+                  <input type="email" id="editEmail" required />
+                </div>
+                <div class="form-group">
+                  <label for="editParentName">Parent Name:</label>
+                  <input type="text" id="editParentName" />
+                </div>
+                <div class="form-group">
+                  <label for="editParentPhone">Parent Phone:</label>
+                  <input type="text" id="editParentPhone" />
+                </div>
+                <div class="form-group">
+                  <label for="editDob">Date of Birth:</label>
+                  <input type="date" id="editDob" />
+                </div>
+                <div class="form-group">
+                  <label for="editGender">Gender:</label>
+                  <select id="editGender">
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="editAddress">Address:</label>
+                  <input type="text" id="editAddress" />
+                </div>
+                <div class="form-group">
+                  <label for="editUserPass">Password:</label>
+                  <input type="password" id="editUserPass" />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="cancelEdit" class="edit-btn">
+                <i class="fas fa-times"></i> Cancel
+              </button>
+              <button type="submit" form="editForm" class="edit-btn">
+                <i class="fas fa-save"></i> Save Changes
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- Teacher Records Section -->
-      <section id="teacherRecords" style="display: none;">
-        <h2><a href="/teacherusers">View Teacher Records</a></h2>
-      </section>
-
-      <!-- Settings Section - Profile & Personal Info Update -->
+      <!-- Settings Section -->
       <section id="settings" style="display: none;">
-        <h2>Settings</h2>
+        <h2><i class="fas fa-cog"></i> Account Settings</h2>
         <form id="settingsForm">
-          <div class="form-group">
-            <label for="profilePic">Profile Picture</label>
+          <div class="profile-picture-container">
             <img
               id="profilePicPreview"
               src="https://i.postimg.cc/28gm27sy/2993763.png"
               alt="Profile Picture"
-              style="width:100px; height:100px; border-radius:50%; object-fit: cover; margin-bottom:10px;"
+              class="profile-picture"
             />
-            <input type="file" id="profilePic" accept="image/*" />
+            <div class="profile-upload">
+              <label for="profilePic" class="edit-btn" style="cursor: pointer;">
+                <i class="fas fa-camera"></i> Change Photo
+              </label>
+              <input type="file" id="profilePic" accept="image/*" style="display: none;" />
+              <small>Recommended size: 500x500px</small>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" required />
+          
+          <div class="flex justify-between items-center" style="gap: 20px;">
+            <div class="form-group" style="flex: 1;">
+              <label for="firstName">First Name:</label>
+              <input type="text" id="firstName" required />
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label for="surname">Surname:</label>
+              <input type="text" id="surname" required />
+            </div>
           </div>
+          
           <div class="form-group">
-            <label for="surname">Surname</label>
-            <input type="text" id="surname" required />
-          </div>
-          <div class="form-group">
-            <label for="emailInfo">Email</label>
+            <label for="emailInfo">Email:</label>
             <input type="email" id="emailInfo" required />
           </div>
+          
           <div class="form-group">
-            <label for="newPassword">New Password</label>
+            <label for="newPassword">New Password:</label>
             <input type="password" id="newPassword" placeholder="Leave blank if not changing" />
+            <small class="mt-3">Password must be at least 8 characters long</small>
           </div>
-          <div class="form-group">
-            <button type="submit">Save Profile</button>
+          
+          <div class="form-group text-center">
+            <button type="submit">
+              <i class="fas fa-save"></i> Update Profile
+            </button>
           </div>
         </form>
       </section>
@@ -670,15 +1129,14 @@
     <footer>
       <div class="social-icons">
         <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
       </div>
       <p>
         <a
           href="https://wa.me/263719647303?text=hi%20darrell%20i%20would%20want%20you%20to%20create%20me%20a%20site%20like%20that%20of%20st%20marys.%20It%20wonderful"
           target="_blank"
-          style="color: white; text-decoration: none;"
           >Made By Darrell Mucheri</a
         >
       </p>
@@ -708,7 +1166,9 @@
         addDoc,
         deleteDoc,
         updateDoc,
-        getDoc
+        getDoc,
+        query,
+        orderBy
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
       const firebaseConfig = {
@@ -725,13 +1185,14 @@
       const auth = getAuth(appFirebase);
       const db = getFirestore(appFirebase);
 
-      /* --------------------- Teacher Dashboard Functions --------------------- */
+      /* --------------------- Enhanced Teacher Dashboard Functions --------------------- */
       async function loadTeacherStats() {
         try {
           const studentsSnapshot = await getDocs(collection(db, "students"));
           const updatesSnapshot = await getDocs(collection(db, "updates"));
-          // Instead of grades, count total teachers from the "users" collection.
           const usersSnapshot = await getDocs(collection(db, "users"));
+          const attendanceSnapshot = await getDocs(collection(db, "attendance"));
+          
           let totalTeachers = 0;
           usersSnapshot.forEach((docSnap) => {
             const data = docSnap.data();
@@ -742,42 +1203,124 @@
 
           const totalStudents = studentsSnapshot.size;
           const totalUpdates = updatesSnapshot.size;
+          const totalAttendanceRecords = attendanceSnapshot.size;
 
           const statsHTML = `
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-              <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; flex: 1; min-width: 150px;">
-                <h3>Total Students</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <h3><i class="fas fa-user-graduate"></i> Total Students</h3>
                 <p>${totalStudents}</p>
               </div>
-              <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; flex: 1; min-width: 150px;">
-                <h3>Total Updates</h3>
+              <div class="stat-card">
+                <h3><i class="fas fa-bullhorn"></i> Total Notices</h3>
                 <p>${totalUpdates}</p>
               </div>
-              <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 8px; flex: 1; min-width: 150px;">
-                <h3>Total Teachers</h3>
+              <div class="stat-card">
+                <h3><i class="fas fa-chalkboard-teacher"></i> Total Teachers</h3>
                 <p>${totalTeachers}</p>
+              </div>
+              <div class="stat-card">
+                <h3><i class="fas fa-calendar-check"></i> Attendance Records</h3>
+                <p>${totalAttendanceRecords}</p>
               </div>
             </div>
           `;
           document.getElementById("teacherStats").innerHTML = statsHTML;
         } catch (error) {
           console.error("Error loading teacher stats:", error);
-          document.getElementById("teacherStats").innerHTML = "<p>Error loading stats.</p>";
+          document.getElementById("teacherStats").innerHTML = `
+            <div class="notification error">
+              <i class="fas fa-exclamation-circle"></i> Error loading statistics
+            </div>
+          `;
         }
       }
 
+      /* --------------------- Enhanced Notice Management --------------------- */
+      async function loadUpdates() {
+        try {
+          const q = query(collection(db, "updates"), orderBy("timestamp", "desc"));
+          const updatesSnapshot = await getDocs(q);
+          let html = "";
+          
+          updatesSnapshot.forEach((docSnap) => {
+            const update = docSnap.data();
+            const date = update.timestamp ? new Date(update.timestamp.seconds * 1000).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            }) : "No date available";
+            
+            html += `
+              <div class="notice-card">
+                <h3>${update.updateTitle || "Untitled Notice"}</h3>
+                <p>${update.updateContent || "No content provided"}</p>
+                <small>Posted by ${update.teacherName || "Unknown"} | ${date}</small>
+                <div class="notice-actions">
+                  <button class="edit-notice" onclick="editNotice('${docSnap.id}')">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button class="delete-notice" onclick="deleteNotice('${docSnap.id}')">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </div>
+              </div>
+            `;
+          });
+          
+          document.getElementById("updatesList").innerHTML = html || `
+            <div class="notification notice">
+              <i class="fas fa-info-circle"></i> No notices available
+            </div>
+          `;
+        } catch (error) {
+          console.error("Error loading updates:", error);
+          document.getElementById("updatesList").innerHTML = `
+            <div class="notification error">
+              <i class="fas fa-exclamation-circle"></i> Error loading notices
+            </div>
+          `;
+        }
+      }
+
+      window.deleteNotice = async function(noticeId) {
+        if (confirm("Are you sure you want to delete this notice? This action cannot be undone.")) {
+          try {
+            await deleteDoc(doc(db, "updates", noticeId));
+            showNotification("Notice deleted successfully", "success");
+            loadUpdates();
+          } catch (error) {
+            console.error("Error deleting notice:", error);
+            showNotification("Error deleting notice", "error");
+          }
+        }
+      };
+
+      window.editNotice = function(noticeId) {
+        // Implementation for editing notices
+        showNotification("Edit feature coming soon", "notice");
+      };
+
+      /* --------------------- Enhanced Attendance Management --------------------- */
       async function populateStudentDropdowns() {
         try {
           const querySnapshot = await getDocs(collection(db, "students"));
           let options = '<option value="">Select Student</option>';
           querySnapshot.forEach((docSnap) => {
             const data = docSnap.data();
-            options += `<option value="${data.email}">${data.firstname || ""} ${data.surname || ""} (${data.email})</option>`;
+            options += `
+              <option value="${data.email}">
+                ${data.firstname || ""} ${data.surname || ""} (${data.email})
+              </option>
+            `;
           });
           document.getElementById("attendanceStudent").innerHTML = options;
           document.getElementById("gradeStudent").innerHTML = options;
         } catch (error) {
           console.error("Error populating student dropdowns:", error);
+          showNotification("Error loading student list", "error");
         }
       }
 
@@ -785,29 +1328,38 @@
         const attendanceTableBody = document.getElementById("attendanceTableBody");
         let tableRows = "";
         for (let week = 1; week <= 4; week++) {
-          tableRows += `<tr>
-            <td>Week ${week}</td>
-            <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Monday" /></td>
-            <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Tuesday" /></td>
-            <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Wednesday" /></td>
-            <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Thursday" /></td>
-            <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Friday" /></td>
-          </tr>`;
+          tableRows += `
+            <tr>
+              <td>Week ${week}</td>
+              <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Monday" /></td>
+              <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Tuesday" /></td>
+              <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Wednesday" /></td>
+              <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Thursday" /></td>
+              <td><input type="checkbox" class="attendanceCheckbox" data-week="${week}" data-day="Friday" /></td>
+            </tr>
+          `;
         }
         attendanceTableBody.innerHTML = tableRows;
       }
 
-      document.getElementById("attendanceForm")?.addEventListener("submit", async (e) => {
+      document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         const studentEmail = document.getElementById("attendanceStudent").value;
         const year = document.getElementById("attendanceYear").value;
         const term = document.getElementById("attendanceTerm").value;
         const month = document.getElementById("attendanceMonth").value;
+        
+        if (!studentEmail || !year || !term || !month) {
+          showNotification("Please fill all required fields", "error");
+          return;
+        }
+
         const checkboxes = document.querySelectorAll(".attendanceCheckbox");
         let presentCount = 0;
         checkboxes.forEach((checkbox) => {
           if (checkbox.checked) presentCount++;
         });
+        
         const totalDays = checkboxes.length;
         const percentage = ((presentCount / totalDays) * 100).toFixed(2);
 
@@ -830,43 +1382,44 @@
             term,
             month,
             attendance: attendanceData,
-            percentage: Number(percentage)
+            percentage: Number(percentage),
+            lastUpdated: new Date()
           });
-          document.getElementById("attendanceResult").innerHTML = `<p>Attendance saved! Attendance Percentage: <span class="${percentage < 75 ? 'low-attendance' : ''}">${percentage}%</span></p>`;
+          
+          document.getElementById("attendanceResult").innerHTML = `
+            <div class="notification success">
+              <i class="fas fa-check-circle"></i> Attendance saved successfully! 
+              Attendance Percentage: <strong>${percentage}%</strong>
+            </div>
+          `;
+          
+          // Reset form
+          document.getElementById("attendanceForm").reset();
+          generateAttendanceRows();
         } catch (error) {
           console.error("Error saving attendance:", error);
+          document.getElementById("attendanceResult").innerHTML = `
+            <div class="notification error">
+              <i class="fas fa-exclamation-circle"></i> Error saving attendance: ${error.message}
+            </div>
+          `;
         }
       });
 
-      document.getElementById("gradeForm")?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const studentEmail = document.getElementById("gradeStudent").value;
-        const studentClass = document.getElementById("studentClass").value;
-        const year = document.getElementById("gradeYear").value;
-        const term = document.getElementById("gradeTerm").value;
-        const finalGrade = document.getElementById("finalGrade").value;
-        const docId = `${studentEmail}_${year}_${term}`;
-        try {
-          await setDoc(doc(db, "grades", docId), {
-            studentEmail,
-            studentClass,
-            year,
-            term,
-            finalGrade
-          });
-          document.getElementById("gradeResult").innerHTML = "<p>Grade saved successfully!</p>";
-        } catch (error) {
-          console.error("Error saving grade:", error);
-        }
-      });
-
-      document.getElementById("updateForm")?.addEventListener("submit", async (e) => {
+      /* --------------------- Enhanced Notice Posting --------------------- */
+      document.getElementById("updateForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         const teacherName = document.getElementById("teacherName").value;
         const updateTitle = document.getElementById("updateTitle").value;
         const updateContent = document.getElementById("updateContent").value;
         const updateYear = document.getElementById("updateYear").value;
         const updateTerm = document.getElementById("updateTerm").value;
+        
+        if (!teacherName || !updateTitle || !updateContent || !updateYear || !updateTerm) {
+          showNotification("Please fill all required fields", "error");
+          return;
+        }
+
         try {
           await addDoc(collection(db, "updates"), {
             teacherName,
@@ -876,54 +1429,39 @@
             updateTerm,
             timestamp: new Date()
           });
-          document.getElementById("updateResult").innerHTML = "<p>Update posted successfully!</p>";
+          
+          document.getElementById("updateResult").innerHTML = `
+            <div class="notification success">
+              <i class="fas fa-check-circle"></i> Notice posted successfully!
+            </div>
+          `;
+          
+          // Reset form
+          document.getElementById("updateForm").reset();
         } catch (error) {
           console.error("Error posting update:", error);
+          document.getElementById("updateResult").innerHTML = `
+            <div class="notification error">
+              <i class="fas fa-exclamation-circle"></i> Error posting notice: ${error.message}
+            </div>
+          `;
         }
       });
 
-      async function loadUpdates() {
-        try {
-          const updatesSnapshot = await getDocs(collection(db, "updates"));
-          let html = "";
-          updatesSnapshot.forEach((docSnap) => {
-            const update = docSnap.data();
-            html += `<div class="notice-card">
-              <h3>${update.updateTitle || "Update"}</h3>
-              <p>${update.updateContent || ""}</p>
-              <small>${update.teacherName ? "Posted by " + update.teacherName + " | " : ""}${update.timestamp ? new Date(update.timestamp.seconds * 1000).toLocaleString() : ""}</small>
-              <br/>
-              <button onclick="deleteUpdate('${docSnap.id}')" style="margin-top:10px; background:red; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">Delete Update</button>
-            </div>`;
-          });
-          document.getElementById("updatesList").innerHTML = html || "<p>No updates available.</p>";
-        } catch (error) {
-          console.error("Error loading updates:", error);
-          document.getElementById("updatesList").innerHTML = "<p>Error loading updates.</p>";
-        }
-      }
-
-      window.deleteUpdate = async function (updateId) {
-        if (confirm("Are you sure you want to delete this update?")) {
-          try {
-            await deleteDoc(doc(db, "updates", updateId));
-            loadUpdates();
-          } catch (error) {
-            console.error("Error deleting update:", error);
-          }
-        }
-      };
-
-      /* --------------------- Student Management Functions --------------------- */
+      /* --------------------- Enhanced Student Management --------------------- */
       let studentsData = [];
+      
       function showNotification(message, type = "notice") {
         const notification = document.getElementById("notification");
-        notification.textContent = message;
+        notification.innerHTML = `
+          <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+          ${message}
+        `;
         notification.className = `notification ${type}`;
-        notification.style.display = "block";
+        notification.style.display = "flex";
         setTimeout(() => {
           notification.style.display = "none";
-        }, 3000);
+        }, 5000);
       }
 
       async function loadStudents() {
@@ -935,6 +1473,7 @@
             data.id = docSnap.id;
             students.push(data);
           });
+          
           students.sort((a, b) => {
             const nameA = (a.firstname || "").toLowerCase();
             const nameB = (b.firstname || "").toLowerCase();
@@ -942,8 +1481,10 @@
             if (nameA > nameB) return 1;
             return 0;
           });
+          
           studentsData = students;
           const groups = {};
+          
           students.forEach((student) => {
             const groupKey = `${student.form || "Not set"} - ${student.stream || "Not set"}`;
             if (!groups[groupKey]) {
@@ -951,15 +1492,19 @@
             }
             groups[groupKey].push(student);
           });
+          
           document.getElementById("totalCount").textContent = `Total Students: ${students.length}`;
           const container = document.getElementById("studentsList");
           container.innerHTML = "";
+          
           for (const group in groups) {
             const groupDiv = document.createElement("div");
             groupDiv.classList.add("group-section");
-            groupDiv.innerHTML = `<h2>Group: ${group}</h2>`;
+            groupDiv.innerHTML = `<h3 style="margin: 20px 0 10px; color: var(--secondary);">${group}</h3>`;
+            
             const tableWrapper = document.createElement("div");
             tableWrapper.classList.add("table-responsive");
+            
             const table = document.createElement("table");
             const thead = document.createElement("thead");
             thead.innerHTML = `
@@ -967,40 +1512,35 @@
                 <th>#</th>
                 <th>First Name</th>
                 <th>Surname</th>
-                <th>Phone</th>
                 <th>Email</th>
-                <th>Parent Name</th>
-                <th>Parent Phone</th>
-                <th>DOB</th>
-                <th>Gender</th>
-                <th>Address</th>
-                <th>Password</th>
+                <th>Class</th>
                 <th>Actions</th>
               </tr>
             `;
+            
             table.appendChild(thead);
             const tbody = document.createElement("tbody");
+            
             groups[group].forEach((student, index) => {
               const tr = document.createElement("tr");
               tr.innerHTML = `
                 <td>${index + 1}</td>
-                <td>${student.firstname || ""}</td>
-                <td>${student.surname || ""}</td>
-                <td>${student.phone || ""}</td>
-                <td>${student.email || ""}</td>
-                <td>${student.parentName || ""}</td>
-                <td>${student.parentPhone || ""}</td>
-                <td>${student.dob || ""}</td>
-                <td>${student.gender || ""}</td>
-                <td>${student.address || ""}</td>
-                <td>${student.userPass || ""}</td>
+                <td>${student.firstname || "-"}</td>
+                <td>${student.surname || "-"}</td>
+                <td>${student.email || "-"}</td>
+                <td>${student.form || "-"} ${student.stream || ""}</td>
                 <td class="action-buttons">
-                  <button class="edit-btn" onclick="editStudent('${student.id}')">Edit</button>
-                  <button class="delete-btn" onclick="deleteStudent('${student.id}')">Delete</button>
+                  <button class="edit-btn" onclick="editStudent('${student.id}')">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button class="delete-btn" onclick="deleteStudent('${student.id}')">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
                 </td>
               `;
               tbody.appendChild(tr);
             });
+            
             table.appendChild(tbody);
             tableWrapper.appendChild(table);
             groupDiv.appendChild(tableWrapper);
@@ -1012,25 +1552,26 @@
         }
       }
 
-      async function deleteStudent(studentId) {
-        if (confirm("Are you sure you want to delete this student?")) {
+      window.deleteStudent = async function(studentId) {
+        if (confirm("Are you sure you want to delete this student? This action cannot be undone.")) {
           try {
             await deleteDoc(doc(db, "students", studentId));
-            showNotification("Student deleted successfully.", "success");
+            showNotification("Student deleted successfully", "success");
             loadStudents();
           } catch (error) {
             console.error("Error deleting student:", error);
-            showNotification("Error deleting student: " + error.message, "error");
+            showNotification("Error deleting student", "error");
           }
         }
-      }
+      };
 
-      function editStudent(studentId) {
+      window.editStudent = function(studentId) {
         const student = studentsData.find((s) => s.id === studentId);
         if (!student) {
-          showNotification("Student not found.", "error");
+          showNotification("Student not found", "error");
           return;
         }
+        
         document.getElementById("editStudentId").value = student.id;
         document.getElementById("editFirstName").value = student.firstname || "";
         document.getElementById("editSurname").value = student.surname || "";
@@ -1042,22 +1583,22 @@
         document.getElementById("editGender").value = student.gender || "";
         document.getElementById("editAddress").value = student.address || "";
         document.getElementById("editUserPass").value = student.userPass || "";
+        
         document.getElementById("editModal").style.display = "block";
-      }
-
-      // Attach deleteStudent and editStudent functions to the global window so inline onclick works
-      window.deleteStudent = deleteStudent;
-      window.editStudent = editStudent;
+      };
 
       document.getElementById("editModalClose").addEventListener("click", () => {
         document.getElementById("editModal").style.display = "none";
       });
+      
       document.getElementById("cancelEdit").addEventListener("click", () => {
         document.getElementById("editModal").style.display = "none";
       });
+      
       document.getElementById("editForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         const studentId = document.getElementById("editStudentId").value;
+        
         const updatedData = {
           firstname: document.getElementById("editFirstName").value,
           surname: document.getElementById("editSurname").value,
@@ -1069,33 +1610,39 @@
           gender: document.getElementById("editGender").value,
           address: document.getElementById("editAddress").value,
           userPass: document.getElementById("editUserPass").value,
+          lastUpdated: new Date()
         };
+        
         try {
           await updateDoc(doc(db, "students", studentId), updatedData);
-          showNotification("Student updated successfully.", "success");
+          showNotification("Student updated successfully", "success");
           document.getElementById("editModal").style.display = "none";
           loadStudents();
         } catch (error) {
           console.error("Error updating student:", error);
-          showNotification("Error updating student: " + error.message, "error");
+          showNotification("Error updating student", "error");
         }
       });
 
-      /* --------------------- Navigation & Theme Toggle --------------------- */
+      /* --------------------- Enhanced Navigation --------------------- */
       const menuBtn = document.getElementById("menuBtn");
       const sideMenu = document.getElementById("sideMenu");
       const closeBtn = document.getElementById("closeBtn");
+      
       menuBtn.addEventListener("click", () => {
         sideMenu.classList.toggle("active");
       });
+      
       closeBtn.addEventListener("click", () => {
         sideMenu.classList.remove("active");
       });
+      
       document.addEventListener("click", (e) => {
         if (!sideMenu.contains(e.target) && !menuBtn.contains(e.target)) {
           sideMenu.classList.remove("active");
         }
       });
+      
       const menuLinks = document.querySelectorAll(".menu-links a");
       menuLinks.forEach((link) => {
         link.addEventListener("click", (e) => {
@@ -1103,21 +1650,33 @@
           if (targetHref.startsWith("#")) {
             e.preventDefault();
             const targetId = targetHref.substring(1);
+            
+            // Update active menu item
+            menuLinks.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+            
+            // Show target section
             document.querySelectorAll("section").forEach((sec) => {
               sec.style.display = sec.id === targetId ? "block" : "none";
             });
+            
             sideMenu.classList.remove("active");
+            
+            // Load data if needed
             if (targetId === "updates") {
               loadUpdates();
-            }
-            if (targetId === "studentManagement") {
+            } else if (targetId === "studentManagement") {
               loadStudents();
+            } else if (targetId === "dashboard") {
+              loadTeacherStats();
+            } else if (targetId === "attendance") {
+              populateStudentDropdowns();
+              generateAttendanceRows();
             }
-          } else {
-            window.location.href = targetHref;
           }
         });
       });
+      
       document.getElementById("logoutBtn").addEventListener("click", async (e) => {
         e.preventDefault();
         try {
@@ -1125,10 +1684,14 @@
           window.location.href = "/teacherslogin";
         } catch (error) {
           console.error("Logout error:", error);
+          showNotification("Error during logout", "error");
         }
       });
+
+      /* --------------------- Enhanced Theme Toggle --------------------- */
       const themeToggle = document.getElementById("themeToggle");
       let isDark = true;
+      
       themeToggle.addEventListener("click", () => {
         isDark = !isDark;
         document.body.setAttribute("data-theme", isDark ? "dark" : "light");
@@ -1137,6 +1700,7 @@
           : '<i class="fas fa-sun"></i>';
         localStorage.setItem("theme", isDark ? "dark" : "light");
       });
+      
       if (localStorage.getItem("theme")) {
         const savedTheme = localStorage.getItem("theme");
         document.body.setAttribute("data-theme", savedTheme);
@@ -1146,44 +1710,46 @@
           : '<i class="fas fa-sun"></i>';
       }
 
-      /* --------------------- Auth & Initialization --------------------- */
+      /* --------------------- Enhanced Auth & Initialization --------------------- */
       onAuthStateChanged(auth, (user) => {
         if (!user) {
           window.location.href = "/teacherslogin";
         } else {
           const name = user.email.split("@")[0];
           const welcomeMessage = document.getElementById("welcomeMessage");
-          welcomeMessage.innerText = `Welcome, ${name}!`;
-          welcomeMessage.style.fontSize = "3rem";
+          welcomeMessage.innerHTML = `Welcome, <span>${name}</span>!`;
           welcomeMessage.style.animation = "fadeIn 1s ease-in-out";
+          
+          // Load initial data
           populateStudentDropdowns();
           generateAttendanceRows();
           loadTeacherStats();
           loadTeacherProfile();
+          
+          // Show dashboard by default
+          document.querySelector("section").style.display = "block";
+          document.querySelector('.menu-links a[href="#dashboard"]').classList.add("active");
         }
       });
 
-      /* --------------------- Teacher Profile Settings --------------------- */
+      /* --------------------- Enhanced Teacher Profile Settings --------------------- */
       async function loadTeacherProfile() {
         try {
           const user = auth.currentUser;
           if (!user) return;
+          
           const docRef = doc(db, "users", user.uid);
           const docSnap = await getDoc(docRef);
+          
           if (docSnap.exists()) {
             const data = docSnap.data();
             document.getElementById("firstName").value = data.firstname || "";
             document.getElementById("surname").value = data.surname || "";
             document.getElementById("emailInfo").value = data.email || "";
+            document.getElementById("teacherName").value = `${data.firstname || ""} ${data.surname || ""}`.trim();
+            
             if (data.profilePic) {
               document.getElementById("profilePicPreview").src = data.profilePic;
-            } else {
-              // If no profile pic has been set, show a notification to update it.
-              Swal.fire({
-                icon: 'info',
-                title: 'Complete Your Profile',
-                text: 'Please update your profile picture in the Settings section.'
-              });
             }
           }
         } catch (error) {
@@ -1191,12 +1757,12 @@
         }
       }
 
-      // Convert selected image to Base64 and update preview
-      document.getElementById("profilePic").addEventListener("change", function () {
+      // Profile picture upload
+      document.getElementById("profilePic").addEventListener("change", function() {
         const file = this.files[0];
         if (file) {
           const reader = new FileReader();
-          reader.onload = function (e) {
+          reader.onload = function(e) {
             document.getElementById("profilePicPreview").src = e.target.result;
             document.getElementById("profilePicPreview").dataset.base64 = e.target.result;
           };
@@ -1204,43 +1770,90 @@
         }
       });
 
-      // Handle Settings Form Submission
+      // Profile update
       document.getElementById("settingsForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         const user = auth.currentUser;
         if (!user) return;
+        
         const profilePicBase64 =
           document.getElementById("profilePicPreview").dataset.base64 ||
           document.getElementById("profilePicPreview").src;
+        
         const firstname = document.getElementById("firstName").value;
         const surname = document.getElementById("surname").value;
         const email = document.getElementById("emailInfo").value;
         const newPassword = document.getElementById("newPassword").value;
+        
         const updatedProfile = {
           profilePic: profilePicBase64,
           firstname,
           surname,
-          email
+          email,
+          lastUpdated: new Date()
         };
+        
         try {
+          // Update profile in Firestore
           await setDoc(doc(db, "users", user.uid), updatedProfile, { merge: true });
+          
+          // Update password if provided
           if (newPassword.trim() !== "") {
+            if (newPassword.length < 8) {
+              showNotification("Password must be at least 8 characters", "error");
+              return;
+            }
             await updatePassword(user, newPassword);
           }
-          alert("Profile updated successfully!");
+          
+          showNotification("Profile updated successfully", "success");
         } catch (error) {
           console.error("Error updating profile:", error);
-          alert("Error updating profile: " + error.message);
+          showNotification("Error updating profile", "error");
         }
       });
-    </script>
 
-    <script>
-      // Theme toggle (non-module)
-      document.getElementById("themeToggle").addEventListener("click", function () {
-        document.body.classList.toggle("dark-theme");
-        this.querySelector("i").classList.toggle("fa-moon");
-        this.querySelector("i").classList.toggle("fa-sun");
+      /* --------------------- Initialize Grades Form --------------------- */
+      document.getElementById("gradeForm")?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const studentEmail = document.getElementById("gradeStudent").value;
+        const studentClass = document.getElementById("studentClass").value;
+        const year = document.getElementById("gradeYear").value;
+        const term = document.getElementById("gradeTerm").value;
+        const finalGrade = document.getElementById("finalGrade").value;
+        
+        if (!studentEmail || !studentClass || !year || !term || !finalGrade) {
+          showNotification("Please fill all required fields", "error");
+          return;
+        }
+        
+        const docId = `${studentEmail}_${year}_${term}`;
+        try {
+          await setDoc(doc(db, "grades", docId), {
+            studentEmail,
+            studentClass,
+            year,
+            term,
+            finalGrade,
+            lastUpdated: new Date()
+          });
+          
+          document.getElementById("gradeResult").innerHTML = `
+            <div class="notification success">
+              <i class="fas fa-check-circle"></i> Grade saved successfully!
+            </div>
+          `;
+          
+          // Reset form
+          document.getElementById("gradeForm").reset();
+        } catch (error) {
+          console.error("Error saving grade:", error);
+          document.getElementById("gradeResult").innerHTML = `
+            <div class="notification error">
+              <i class="fas fa-exclamation-circle"></i> Error saving grade: ${error.message}
+            </div>
+          `;
+        }
       });
     </script>
   </body>
